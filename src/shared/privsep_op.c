@@ -26,10 +26,10 @@ uid_t Privsep_GetUser(const char *name)
 {
     size_t len = (size_t) sysconf(_SC_GETGR_R_SIZE_MAX);
     len = len > 0 ? len : 1024;
-    struct passwd pw = { 0 };
+    struct passwd pw = { .pw_name = 0 };
     char *buffer;
     os_malloc(len, buffer);
-    struct passwd *result = { 0 };
+    struct passwd *result = { .pw_name = 0 };
     uid_t pw_uid;
 
     getpwnam_r(name, &pw, buffer, len, &result);
@@ -46,7 +46,7 @@ uid_t Privsep_GetUser(const char *name)
 
 gid_t Privsep_GetGroup(const char *name)
 {
-    struct group grp = { 0 };
+    struct group grp = { .gr_name = 0 };
     size_t len = (size_t) sysconf(_SC_GETGR_R_SIZE_MAX);
     len = len > 0 ? len : 1024;
     struct group *result = NULL;
